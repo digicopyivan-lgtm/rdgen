@@ -1,0 +1,22 @@
+{
+  "_nota": "Marca del cliente RustDesk de Digicopy. La lee .github/workflows/digicopy-windows.yml. Sin espacios ni acentos en appname/filename.",
+  "appname": "SoporteDigicopy",
+  "filename": "SoporteDigicopy",
+  "compname": "Digicopy",
+  "server": "toshibacenter.ddns.net",
+  "serverPort": "21116",
+  "key": "vRLxVjO8Rmtw8JUrObFn518Z8QXCjFXZz2VQTI+xMgM=",
+  "apiServer": "http://toshibacenter.ddns.net:21114",
+  "urlLink": "https://www.toshibacenter.es",
+  "downloadLink": "https://www.toshibacenter.es",
+  "delayFix": "true",
+  "xOffline": "false",
+  "removeNewVersionNotif": "true",
+  "custom": {
+    "app-name": "Soporte Digicopy",
+    "enable-lan-discovery": "Y",
+    "allow-auto-disconnect": "N",
+    "default-settings": {},
+    "override-settings": {}
+  }
+}
