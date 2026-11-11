@@ -1,5 +1,5 @@
 name: Soporte Digicopy - cliente Windows
-run-name: Soporte Digicopy - cliente Windows ${{ inputs.version }}
+run-name: Soporte Digicopy - ${{ inputs.variante || 'cliente' }} Windows ${{ inputs.version }}
 on: 
   workflow_dispatch:
     inputs:
@@ -13,6 +13,14 @@ on:
         required: false
         default: ''
         type: string
+      variante:
+        description: 'cliente = solo recibir (para los clientes) · tecnicos = completo, para controlar (marca-tecnicos.json)'
+        required: false
+        default: 'cliente'
+        type: choice
+        options:
+          - cliente
+          - tecnicos
 
 
 env:
@@ -84,12 +92,24 @@ jobs:
         
       - name: Cargar marca Digicopy
         shell: python
+        env:
+          VARIANTE: ${{ inputs.variante }}
         run: |
           import base64, json, os, shutil
           ws = os.environ["GITHUB_WORKSPACE"]; tmp = os.environ["RUNNER_TEMP"]
           dst = os.path.join(tmp, "digicopy")
           shutil.copytree(os.path.join(ws, "digicopy"), dst, dirs_exist_ok=True)
           m = json.load(open(os.path.join(dst, "marca.json"), encoding="utf-8"))
+          # Versión para técnicos: marca-tecnicos.json se pone ENCIMA de marca.json
+          # (en «custom», una clave a null se quita: así se quita el modo «solo recibir»)
+          if os.environ.get("VARIANTE") == "tecnicos":
+              t = json.load(open(os.path.join(dst, "marca-tecnicos.json"), encoding="utf-8"))
+              c = dict(m.get("custom", {}))
+              for k, v in t.pop("custom", {}).items():
+                  if v is None: c.pop(k, None)
+                  else: c[k] = v
+              m.update({k: v for k, v in t.items() if not k.startswith("_")})
+              m["custom"] = c
           custom = base64.b64encode(json.dumps(m.pop("custom", {})).encode("ascii")).decode()
           with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as f:
               for k, v in m.items():

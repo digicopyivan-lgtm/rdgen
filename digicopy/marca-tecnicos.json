@@ -1,0 +1,10 @@
+{
+  "_nota": "Versión COMPLETA para los técnicos (variante «tecnicos» del flujo). Se pone encima de marca.json: aquí solo lo que cambia. En «custom», null quita la opción.",
+  "appname": "DigicopyTecnicos",
+  "filename": "DigicopyTecnicos",
+  "hideInstallCard": "false",
+  "custom": {
+    "app-name": "Digicopy Tecnicos",
+    "conn-type": null
+  }
+}
