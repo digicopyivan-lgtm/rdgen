@@ -17,6 +17,9 @@
     "enable-lan-discovery": "Y",
     "allow-auto-disconnect": "N",
     "default-settings": {},
-    "override-settings": {}
-  }
+    "override-settings": {},
+    "conn-type": "incoming"
+  },
+  "accentColor": "E22313",
+  "hideInstallCard": "true"
 }

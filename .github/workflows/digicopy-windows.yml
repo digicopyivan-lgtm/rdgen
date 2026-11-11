@@ -351,6 +351,19 @@ jobs:
                   else:
                       print("Warning: RD_PRINTER_PORT not matched in RemotePrinter.cpp")
 
+      - name: Personalizar Digicopy (color y aviso de instalación)
+        shell: bash
+        run: |
+          C="${{ env.accentColor }}"
+          if [ -n "$C" ]; then
+            sed -i -e "s|Color(0xFF0071FF)|Color(0xFF$C)|; s|Color(0x770071FF)|Color(0x77$C)|; s|Color(0xAA0071FF)|Color(0xAA$C)|; s|Color(0xFF2C8CFF)|Color(0xFF$C)|" ./flutter/lib/common.dart
+            grep -n -E "static const Color (accent|accent50|accent80|button) " ./flutter/lib/common.dart
+          fi
+          if [ "${{ env.hideInstallCard }}" = "true" ]; then
+            sed -i -e 's|if (isWindows \&\& !bind.isDisableInstallation()) {|if (isWindows \&\& !bind.isDisableInstallation() \&\& !bind.isIncomingOnly()) {|' ./flutter/lib/desktop/pages/desktop_home_page.dart
+            grep -n "isDisableInstallation() && !bind.isIncomingOnly()" ./flutter/lib/desktop/pages/desktop_home_page.dart
+          fi
+
       - name: Install LLVM and Clang
         uses: KyleMayes/install-llvm-action@v1
         with:
